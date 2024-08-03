@@ -6,7 +6,6 @@
 
 import Router, { useRouter } from 'next/router';
 
-import type { AppCallIntent } from '../apps/call/AppCall';
 import type { AppChatIntent } from '../apps/chat/AppChat';
 
 import type { DConversationId } from '~/common/state/store-chats';
@@ -81,18 +80,4 @@ export async function launchAppChat(conversationId?: DConversationId) {
     },
     ROUTE_APP_CHAT,
   );
-}
-
-export function launchAppCall(conversationId: string, personaId: string) {
-  void Router.push(
-    {
-      pathname: ROUTE_APP_CALL,
-      query: {
-        conversationId,
-        personaId,
-        backTo: 'app-chat',
-      } satisfies AppCallIntent,
-    },
-    // ROUTE_APP_CALL,
-  ).then();
 }

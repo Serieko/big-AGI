@@ -30,7 +30,6 @@ import { animationEnterBelow } from '~/common/util/animUtils';
 import { conversationTitle, DConversationId, DMessageMetadata, getConversation, useChatStore } from '~/common/state/store-chats';
 import { countModelTokens } from '~/common/util/token-counter';
 import { isMacUser } from '~/common/util/pwaUtils';
-import { launchAppCall } from '~/common/app.routes';
 import { lineHeightTextareaMd } from '~/common/app.theme';
 import { platformAwareKeystrokes } from '~/common/components/KeyStroke';
 import { playSoundUrl } from '~/common/util/audioUtils';
@@ -59,7 +58,6 @@ import { ButtonAttachClipboardMemo } from './buttons/ButtonAttachClipboard';
 import { ButtonAttachFileMemo } from './buttons/ButtonAttachFile';
 import { ButtonAttachScreenCaptureMemo } from './buttons/ButtonAttachScreenCapture';
 import { ButtonBeamMemo } from './buttons/ButtonBeam';
-import { ButtonCallMemo } from './buttons/ButtonCall';
 import { ButtonMicContinuationMemo } from './buttons/ButtonMicContinuation';
 import { ButtonMicMemo } from './buttons/ButtonMic';
 import { ButtonMultiChatMemo } from './buttons/ButtonMultiChat';
@@ -241,7 +239,7 @@ export function Composer(props: {
   // Secondary buttons
 
   const handleCallClicked = React.useCallback(() => {
-    props.conversationId && systemPurposeId && launchAppCall(props.conversationId, systemPurposeId);
+    props.conversationId && systemPurposeId;
   }, [props.conversationId, systemPurposeId]);
 
   const handleDrawOptionsClicked = React.useCallback(() => {
@@ -778,12 +776,6 @@ export function Composer(props: {
             <Box sx={isMobile ? { display: 'flex' } : { display: 'grid', gap: 1 }}>
 
               {/* [mobile] bottom-corner secondary button */}
-              {isMobile && (showChatExtras
-                  ? <ButtonCallMemo isMobile disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />
-                  : isDraw
-                    ? <ButtonOptionsDraw isMobile onClick={handleDrawOptionsClicked} sx={{ mr: { xs: 1, md: 2 } }} />
-                    : <IconButton disabled sx={{ mr: { xs: 1, md: 2 } }} />
-              )}
 
               {/* Responsive Send/Stop buttons */}
               <ButtonGroup
@@ -859,7 +851,6 @@ export function Composer(props: {
             {isDesktop && <Box sx={{ mt: 'auto', display: 'grid', gap: 1 }}>
 
               {/* [desktop] Call secondary button */}
-              {showChatExtras && <ButtonCallMemo disabled={!props.conversationId || !chatLLMId} onClick={handleCallClicked} />}
 
               {/* [desktop] Draw Options secondary button */}
               {isDraw && <ButtonOptionsDraw onClick={handleDrawOptionsClicked} />}
